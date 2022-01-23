@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Rahul Kumar" />
+    <meta name="contact" content="rahulkumar109422@gmail.com" />
+    <meta name="robots" content="index,follow" />
+
+    <!------------- TITLE -------------->
+    <title>{{title}}</title>
+
+    <!----------- GOOGLE FONTS ----------->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Berkshire+Swash&family=Kurale&display=swap"
+      rel="stylesheet"
+    />
+
+    <!---------- REMIX ICONS ------------>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!------------ ION ICONS ----------->
+    <script
+      type="module"
+      defer
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      defer
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    <!----------- CUSTOM STYLESHEET ----------->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/home.css')}}"
+    />
+  </head>
+
+  <body>
+    <main class="memories--container">
+      <section class="memories__cards--container">
+        <h1 class="memories__container--title">Memories</h1>
+        <div class="memories__cards">
+          <div class="card" id="card-1">
+            <div class="card__header">
+              <img
+                src="{{url_for('static',filename='images/img-1.jpg')}}"
+                alt="Card Image"
+                class="card__image"
+              />
+              <div class="card__info">
+                <div class="card__author">
+                  <h3>Rahul Baran</h3>
+                  <h5>3 Days Ago</h5>
+                </div>
+
+                <div class="card__header--btns">
+                  <button class="card__edit--btn card__btn" title="Edit Memory">
+                    <i class="ri-edit-box-line"></i>
+                  </button>
+
+                  <button
+                    class="card__delete--btn card__btn"
+                    title="Delete Memory"
+                  >
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card__body">
+              <p class="card__tags">#Beautiful#Great</p>
+              <h2 class="card__title">Beautiful Place</h2>
+              <p class="card__message">
+                lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Nulla dolor, provident praesentium vel labore officiis?
+                Lorem ipsum dolor sit Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Molestia
+              </p>
+            </div>
+
+            <div class="card__footer">
+              <button class="card__like--btn">
+                <i class="ri-heart-line"></i>
+                <span>Like</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="card" id="card-2">
+            <div class="card__header">
+              <img
+                src="{{url_for('static',filename='images/img-4.jpg')}}"
+                alt="Card Image"
+                class="card__image"
+              />
+              <div class="card__info">
+                <div class="card__author">
+                  <h3>Rohan Babu</h3>
+                  <h5>1 Day Ago</h5>
+                </div>
+
+                <div class="card__header--btns">
+                  <button class="card__edit--btn card__btn" title="Edit Memory">
+                    <i class="ri-edit-box-line"></i>
+                  </button>
+
+                  <button
+                    class="card__delete--btn card__btn"
+                    title="Delete Memory"
+                  >
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card__body">
+              <p class="card__tags">#Amazing#Love</p>
+              <h2 class="card__title">Amazing Picture</h2>
+              <p class="card__message">
+                lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Nulla dolor, provident praesentium vel labore officiis?
+                Lorem ipsum dolor sit Lorem ipsum dolor sit
+              </p>
+            </div>
+
+            <div class="card__footer">
+              <button class="card__like--btn">
+                <i class="ri-heart-line"></i>
+                <span>Like</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="card" id="card-3">
+            <div class="card__header">
+              <img
+                src="{{url_for('static',filename='images/img-2.jpg')}}"
+                alt="Card Image"
+                class="card__image"
+              />
+              <div class="card__info">
+                <div class="card__author">
+                  <h3>Piyush Agarwal</h3>
+                  <h5>1 hour ago</h5>
+                </div>
+
+                <div class="card__header--btns">
+                  <button class="card__edit--btn card__btn" title="Edit Memory">
+                    <i class="ri-edit-box-line"></i>
+                  </button>
+
+                  <button
+                    class="card__delete--btn card__btn"
+                    title="Delete Memory"
+                  >
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card__body">
+              <p class="card__tags">#Amazing#Lovely#Cute</p>
+              <h2 class="card__title">What a beautiful Cat</h2>
+              <p class="card__message">
+                lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Nulla dolor, provident praesentium vel labore officiis?
+                Lorem ipsum dolor sit Lorem ipsum dolor sit
+              </p>
+            </div>
+
+            <div class="card__footer">
+              <button class="card__like--btn">
+                <i class="ri-heart-line"></i>
+                <span>Like</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <form
+        action="/home"
+        method="post"
+        class="form"
+        autocomplete="off"
+        enctype="multipart/form-data"
+        spellcheck="false"
+      >
+        <legend>Create Memory</legend>
+
+        <div class="form__group">
+          <input
+            type="text"
+            name="creator"
+            class="form__input"
+            id="creator"
+            placeholder=""
+            min="5"
+            max="30"
+            required
+          />
+          <label class="form__input__label" for="creator">Creator Name</label>
+        </div>
+
+        <div class="form__group">
+          <input
+            type="text"
+            name="title"
+            class="form__input"
+            id="title"
+            placeholder=""
+            min="10"
+            max="50"
+            required
+          />
+          <label class="form__input__label" for="title">Title</label>
+        </div>
+
+        <div class="form__group">
+          <input
+            type="text"
+            name="message"
+            class="form__input"
+            id="message"
+            placeholder=""
+            min="10"
+            max="300"
+            required
+          />
+          <label class="form__input__label" for="message">Message</label>
+        </div>
+
+        <div class="form__group">
+          <input
+            type="text"
+            name="tags"
+            class="form__input"
+            id="tags"
+            placeholder=""
+            max="50"
+            required
+          />
+          <label class="form__input__label" for="tags"
+            >Tags(comma separated)</label
+          >
+        </div>
+
+        <div class="form__submit__group">
+          <button type="submit" name="create">
+            <ion-icon name="arrow-forward-circle-outline"></ion-icon>
+            <span>Create</span>
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
