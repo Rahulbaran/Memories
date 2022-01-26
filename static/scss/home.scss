@@ -16,9 +16,12 @@ html {
   /*===== COLORS =====*/
   --clr-white: hsl(0, 100%, 100%);
   --clr-transparent: hsla(240, 50%, 30%, 0.6);
+  --clr-blue-grey-50: hsl(240 31% 95%);
+  --clr-blue-grey-100: hsl(240, 31%, 90%);
   --clr-blue-grey-800: hsl(240, 31%, 15%);
   --clr-blue-grey-600: hsl(240, 31%, 35%);
   --clr-blue-grey-900: hsl(240, 31%, 10%);
+  --clr-red-500: hsl(0 100% 50%);
   --shadow-clr: rgba(0, 0, 0, 0.2);
 
   /*====== FONTS ======*/
@@ -324,6 +327,77 @@ body {
     &:hover,
     &:focus {
       cursor: pointer;
+      opacity: 0.8;
     }
+  }
+
+  &__file__group {
+    > input::file-selector-button {
+      font-family: var(--font-abezee);
+      font-size: 1rem;
+      padding: 0.6rem;
+      border-radius: var(--radius-4);
+      background-color: var(--clr-blue-grey-50);
+      color: var(--clr-blue-grey-600);
+      border: 1.5px solid var(--clr-blue-grey-600);
+      box-shadow: 0 0 5px var(--shadow-clr);
+
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: var(--clr-blue-grey-100);
+        color: var(--clr-blue-grey-900);
+      }
+    }
+
+    > input::-webkit-file-upload-button {
+      font-family: var(--font-abezee);
+      font-size: 1rem;
+      padding: 0.6rem;
+      border-radius: var(--radius-4);
+      background-color: var(--clr-blue-grey-50);
+      color: var(--clr-blue-grey-600);
+      border: 1.5px solid var(--clr-blue-grey-600);
+      box-shadow: 0 0 5px var(--shadow-clr);
+
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: var(--clr-blue-grey-100);
+        color: var(--clr-blue-grey-900);
+      }
+    }
+
+    > input::-ms-browse {
+      font-family: var(--font-abezee);
+      font-size: 1rem;
+      padding: 0.6rem;
+      border-radius: var(--radius-4);
+      background-color: var(--clr-blue-grey-50);
+      color: var(--clr-blue-grey-600);
+      border: 1.5px solid var(--clr-blue-grey-600);
+      box-shadow: 0 0 5px var(--shadow-clr);
+
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: var(--clr-blue-grey-100);
+        color: var(--clr-blue-grey-900);
+      }
+    }
+
+    input {
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--clr-blue-grey-600);
+    }
+  }
+
+  &__field--error {
+    color: var(--clr-red-500);
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    display: block;
+    line-height: 1rem;
   }
 }

@@ -15,6 +15,10 @@ class BaseConfig:
     """
 
     SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(16).hex())
+    SQLALCHEMY_DATABASE_URI = "sqlite:///Database/memory.sqlite3"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    UPLOAD_FOLDER = os.path.join(baseDir, "static", "images")
+    MAX_CONTENT_LENGTH = 8 * 1024 * 1024
 
 
 class DevConfig(BaseConfig):

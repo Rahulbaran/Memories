@@ -42,6 +42,9 @@
       rel="stylesheet"
       href="{{url_for('static',filename='css/home.css')}}"
     />
+
+    <!------------- CUSTOM SCRIPT ------------->
+    <script src="{{url_for('static',filename='js/home.js')}}" defer></script>
   </head>
 
   <body>
@@ -49,16 +52,17 @@
       <section class="memories__cards--container">
         <h1 class="memories__container--title">Memories</h1>
         <div class="memories__cards">
-          <div class="card" id="card-1">
+          {% for memory in memories %}
+          <div class="card" id="card-{{memory.id}}">
             <div class="card__header">
               <img
-                src="{{url_for('static',filename='images/img-1.jpg')}}"
+                src="/static/images/{{memory.image}}"
                 alt="Card Image"
                 class="card__image"
               />
               <div class="card__info">
                 <div class="card__author">
-                  <h3>Rahul Baran</h3>
+                  <h3>{{memory.creator}}</h3>
                   <h5>3 Days Ago</h5>
                 </div>
 
@@ -78,14 +82,13 @@
             </div>
 
             <div class="card__body">
-              <p class="card__tags">#Beautiful#Great</p>
-              <h2 class="card__title">Beautiful Place</h2>
-              <p class="card__message">
-                lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Nulla dolor, provident praesentium vel labore officiis?
-                Lorem ipsum dolor sit Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Molestia
+              <p class="card__tags">
+                {% if memory.tags %} {% for tag in memory.tags.split(',')
+                %}<span style="color: red">#</span>{{tag}}{% endfor %} {% endif
+                %}
               </p>
+              <h2 class="card__title">{{memory.title}}</h2>
+              <p class="card__message">{{memory.message}}</p>
             </div>
 
             <div class="card__footer">
@@ -95,8 +98,8 @@
               </button>
             </div>
           </div>
-
-          <div class="card" id="card-2">
+          {% endfor %}
+          <!-- <div class="card" id="card-2">
             <div class="card__header">
               <img
                 src="{{url_for('static',filename='images/img-4.jpg')}}"
@@ -140,9 +143,9 @@
                 <span>Like</span>
               </button>
             </div>
-          </div>
+          </div> -->
 
-          <div class="card" id="card-3">
+          <!-- <div class="card" id="card-3">
             <div class="card__header">
               <img
                 src="{{url_for('static',filename='images/img-2.jpg')}}"
@@ -186,12 +189,11 @@
                 <span>Like</span>
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
       </section>
 
       <form
-        action="/home"
         method="post"
         class="form"
         autocomplete="off"
@@ -204,7 +206,7 @@
           <input
             type="text"
             name="creator"
-            class="form__input"
+            class="form__input creator__name--field"
             id="creator"
             placeholder=""
             min="5"
@@ -212,13 +214,14 @@
             required
           />
           <label class="form__input__label" for="creator">Creator Name</label>
+          <span class="creator__field--error form__field--error"></span>
         </div>
 
         <div class="form__group">
           <input
             type="text"
             name="title"
-            class="form__input"
+            class="form__input memory__title--field"
             id="title"
             placeholder=""
             min="10"
@@ -226,13 +229,14 @@
             required
           />
           <label class="form__input__label" for="title">Title</label>
+          <span class="title__field--error form__field--error"></span>
         </div>
 
         <div class="form__group">
           <input
             type="text"
             name="message"
-            class="form__input"
+            class="form__input memory__message--field"
             id="message"
             placeholder=""
             min="10"
@@ -240,21 +244,33 @@
             required
           />
           <label class="form__input__label" for="message">Message</label>
+          <span class="message__field--error form__field--error"></span>
         </div>
 
         <div class="form__group">
           <input
             type="text"
             name="tags"
-            class="form__input"
+            class="form__input memory__tags--field"
             id="tags"
             placeholder=""
-            max="50"
-            required
           />
           <label class="form__input__label" for="tags"
             >Tags(comma separated)</label
           >
+          <span class="tags__field--error form__field--error"></span>
+        </div>
+
+        <div class="form__group form__file__group">
+          <input
+            type="file"
+            name="image"
+            class="memory__image--field"
+            id="file"
+            required
+            accept="image/png, image/jpeg, image/jpg, image/gif"
+          />
+          <span class="image__field--error form__field--error"></span>
         </div>
 
         <div class="form__submit__group">
