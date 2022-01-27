@@ -43,8 +43,11 @@
       href="{{url_for('static',filename='css/home.css')}}"
     />
 
-    <!------------- CUSTOM SCRIPT ------------->
+    <!------------- CUSTOM SCRIPT FILE ------------->
     <script src="{{url_for('static',filename='js/home.js')}}" defer></script>
+
+    <!-------------- Moment.js CDN ------------->
+    {{moment.include_moment()}}
   </head>
 
   <body>
@@ -63,7 +66,7 @@
               <div class="card__info">
                 <div class="card__author">
                   <h3>{{memory.creator}}</h3>
-                  <h5>3 Days Ago</h5>
+                  <h5>{{moment(memory.created_on).fromNow(refresh=True)}}</h5>
                 </div>
 
                 <div class="card__header--btns">
@@ -83,9 +86,8 @@
 
             <div class="card__body">
               <p class="card__tags">
-                {% if memory.tags %} {% for tag in memory.tags.split(',')
-                %}<span style="color: red">#</span>{{tag}}{% endfor %} {% endif
-                %}
+                {% for tag in memory.tags.split(',') %}{% if tag
+                %}<span>#{{tag}}</span>{% endif %} {% endfor%}
               </p>
               <h2 class="card__title">{{memory.title}}</h2>
               <p class="card__message">{{memory.message}}</p>
@@ -99,97 +101,6 @@
             </div>
           </div>
           {% endfor %}
-          <!-- <div class="card" id="card-2">
-            <div class="card__header">
-              <img
-                src="{{url_for('static',filename='images/img-4.jpg')}}"
-                alt="Card Image"
-                class="card__image"
-              />
-              <div class="card__info">
-                <div class="card__author">
-                  <h3>Rohan Babu</h3>
-                  <h5>1 Day Ago</h5>
-                </div>
-
-                <div class="card__header--btns">
-                  <button class="card__edit--btn card__btn" title="Edit Memory">
-                    <i class="ri-edit-box-line"></i>
-                  </button>
-
-                  <button
-                    class="card__delete--btn card__btn"
-                    title="Delete Memory"
-                  >
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card__body">
-              <p class="card__tags">#Amazing#Love</p>
-              <h2 class="card__title">Amazing Picture</h2>
-              <p class="card__message">
-                lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Nulla dolor, provident praesentium vel labore officiis?
-                Lorem ipsum dolor sit Lorem ipsum dolor sit
-              </p>
-            </div>
-
-            <div class="card__footer">
-              <button class="card__like--btn">
-                <i class="ri-heart-line"></i>
-                <span>Like</span>
-              </button>
-            </div>
-          </div> -->
-
-          <!-- <div class="card" id="card-3">
-            <div class="card__header">
-              <img
-                src="{{url_for('static',filename='images/img-2.jpg')}}"
-                alt="Card Image"
-                class="card__image"
-              />
-              <div class="card__info">
-                <div class="card__author">
-                  <h3>Piyush Agarwal</h3>
-                  <h5>1 hour ago</h5>
-                </div>
-
-                <div class="card__header--btns">
-                  <button class="card__edit--btn card__btn" title="Edit Memory">
-                    <i class="ri-edit-box-line"></i>
-                  </button>
-
-                  <button
-                    class="card__delete--btn card__btn"
-                    title="Delete Memory"
-                  >
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card__body">
-              <p class="card__tags">#Amazing#Lovely#Cute</p>
-              <h2 class="card__title">What a beautiful Cat</h2>
-              <p class="card__message">
-                lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Nulla dolor, provident praesentium vel labore officiis?
-                Lorem ipsum dolor sit Lorem ipsum dolor sit
-              </p>
-            </div>
-
-            <div class="card__footer">
-              <button class="card__like--btn">
-                <i class="ri-heart-line"></i>
-                <span>Like</span>
-              </button>
-            </div>
-          </div> -->
         </div>
       </section>
 

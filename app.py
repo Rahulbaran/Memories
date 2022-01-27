@@ -2,6 +2,7 @@ from datetime import datetime
 from distutils.command.upload import upload
 from flask import Flask, render_template, redirect, url_for, abort, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_moment import Moment
 from config import DevConfig
 from utils import uploadImage
 
@@ -9,9 +10,10 @@ from utils import uploadImage
 app = Flask(__name__)
 app.config.from_object(DevConfig)
 db = SQLAlchemy(app)
+moment = Moment(app)
 
 
-# Model
+# MODELS
 class Memory(db.Model):
     __tablename__ = "memories"
     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +23,14 @@ class Memory(db.Model):
     tags = db.Column(db.String(50))
     image = db.Column(db.String(30), nullable=False)
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    total_likes = db.relationship("Like", backref="liked_memory", cascade="all, delete-orphan, delete", lazy="dynamic")
+
+
+class Like(db.Model):
+    __tablename__ = "likes"
+    id = db.Column(db.Integer, primary_key=True)
+    total_likes = db.Column(db.Integer, nullable=False, default=0)
+    memoryId = db.Column(db.Integer, db.ForeignKey("memories.id"), nullable=False)
 
 
 # Function to save data in database
