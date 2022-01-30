@@ -36,8 +36,8 @@ class Like(db.Model):
 # Function to save data in database
 def saveData(data, pic):
     creator, title, message, tags = data.get("creator"), data.get("title"), data.get("message"), data.get("tags")
-    image = uploadImage(pic)
     try:
+        image = uploadImage(pic)
         if image:
             memory = Memory(creator=creator, title=title, message=message, tags=tags, image=image)
             db.session.add(memory)
@@ -76,6 +76,11 @@ def home():
         except:
             return {"code": 404, "message": "Couldn't create the memory"}
     return render_template("home.html", title="Memories", memories=allMemories)
+
+
+@app.route("/postLike", methods=["POST"])
+def postLike():
+    return "Show Likes"
 
 
 # RUNNING APPLICATION IN PYTHON STYLE

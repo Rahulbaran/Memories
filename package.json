@@ -28,5 +28,9 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "imagemin": "^8.0.1",
+    "imagemin-webp": "^7.0.0"
   }
 }

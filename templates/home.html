@@ -58,11 +58,20 @@
           {% for memory in memories %}
           <div class="card" id="card-{{memory.id}}">
             <div class="card__header">
-              <img
-                src="/static/images/{{memory.image}}"
-                alt="Card Image"
-                class="card__image"
-              />
+              <picture>
+                <source
+                  srcset="{{url_for('static',filename='images/'+memory.image.split('.')[0] + '.webp')}}"
+                type="image/webp"/>
+                <source
+                  srcset="{{url_for('static',filename='images/'+memory.image)}}"
+                />
+                <img
+                  src="{{url_for('static',filename='images/'+memory.image)}}"
+                  alt="Card Image"
+                  class="card__image"
+                />
+              </picture>
+
               <div class="card__info">
                 <div class="card__author">
                   <h3>{{memory.creator}}</h3>

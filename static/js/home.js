@@ -60,7 +60,7 @@ form.addEventListener("submit", e => {
 
   let tagsString = "";
   for (let i = 0; i < tags.length; i++) {
-    if (tags[i]) tagsString += `#${tags[i]}`;
+    if (tags[i]) tagsString += `#${tags[i]} `;
   }
 
   if (creator.length > 30 || creator.length < 5) {
@@ -81,13 +81,23 @@ form.addEventListener("submit", e => {
     createMemory([creator, title, msg, tags, pic])
       .then(res => {
         const cardStr = `<div class="card" id="card-${res.id}">
-          <div class="card__header"><img src="/static/images/${res.image}" alt="Card Image" class="card__image"/>
-          <div class="card__info"><div class="card__author"><h3>${res.creator}</h3><h5>a few seconds ago
-          </h5></div><div class="card__header--btns"><button class="card__edit--btn card__btn" title="Edit Memory">
-          <i class="ri-edit-box-line"></i></button><button class="card__delete--btn card__btn" title="Delete Memory">
-          <ion-icon name="trash-outline"></ion-icon></button></div></div></div>
+        
+          <div class="card__header"><picture><source srcset="/static/images/${
+            res.image.split(".")[0]
+          }.webp" type="image/webp"/>
+          <source srcset="/static/images/${
+            res.image
+          }"/><img src="/static/images/${res.image}" alt="Card Image"
+          class="card__image"/></picture><div class="card__info"><div class="card__author"><h3>${
+            res.creator
+          }
+          </h3><h5>a few seconds ago</h5></div><div class="card__header--btns"><button class="card__edit--btn 
+          card__btn" title="Edit Memory"><i class="ri-edit-box-line"></i></button><button class="card__delete--btn
+          card__btn" title="Delete Memory"><ion-icon name="trash-outline"></ion-icon></button></div></div></div>
 
-          <div class="card__body"><p class="card__tags">${tagsString}</p><h2 class="card__title">${res.title}</h2>
+          <div class="card__body"><p class="card__tags">${tagsString}</p><h2 class="card__title">${
+          res.title
+        }</h2>
           <p class="card__message">${res.message}</p></div>
 
           <div class="card__footer"><button class="card__like--btn"><i class="ri-heart-line"></i><span>Like</span>

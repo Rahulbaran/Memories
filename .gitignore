@@ -2,3 +2,4 @@ virtual/
 node_modules/
 .env
 __pycache__
+webp.js

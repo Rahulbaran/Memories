@@ -11,7 +11,7 @@ class BaseConfig:
     """
     BaseConfig class contains all the common configurations
     which will be used in Development, Testing and
-    Production phase
+    Production phase of the application
     """
 
     SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(16).hex())

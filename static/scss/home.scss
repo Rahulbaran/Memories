@@ -136,13 +136,15 @@ body {
   border-radius: var(--radius-16);
   box-shadow: 0 0 3px 1px var(--shadow-clr);
 
-  &__image {
-    width: 100%;
-    display: block;
-    height: 12rem;
-    object-fit: cover;
-    border-top-right-radius: var(--radius-16);
-    border-top-left-radius: var(--radius-16);
+  picture {
+    > * {
+      width: 100%;
+      max-height: 12rem;
+      display: block;
+      object-fit: cover;
+      border-top-right-radius: var(--radius-16);
+      border-top-left-radius: var(--radius-16);
+    }
   }
 
   &__info {
