@@ -1,10 +1,9 @@
 from datetime import datetime
-from distutils.command.upload import upload
-from flask import Flask, render_template, redirect, url_for, abort, request
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_moment import Moment
 from config import DevConfig
-from utils import uploadImage
+from utils import uploadImage, deleteImage
 
 
 app = Flask(__name__)
@@ -23,14 +22,7 @@ class Memory(db.Model):
     tags = db.Column(db.String(50))
     image = db.Column(db.String(30), nullable=False)
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    total_likes = db.relationship("Like", backref="liked_memory", cascade="all, delete-orphan, delete", lazy="dynamic")
-
-
-class Like(db.Model):
-    __tablename__ = "likes"
-    id = db.Column(db.Integer, primary_key=True)
     total_likes = db.Column(db.Integer, nullable=False, default=0)
-    memoryId = db.Column(db.Integer, db.ForeignKey("memories.id"), nullable=False)
 
 
 # Function to save data in database
@@ -78,9 +70,31 @@ def home():
     return render_template("home.html", title="Memories", memories=allMemories)
 
 
-@app.route("/postLike", methods=["POST"])
-def postLike():
-    return "Show Likes"
+@app.route("/memoryLike", methods=["POST"])
+def memoryLike():
+    memoryId = request.get_json().get("memoryId")
+    memory = Memory.query.filter_by(id=memoryId).first()
+    memory.total_likes = memory.total_likes + 1
+    db.session.commit()
+    return {"total Likes": memory.total_likes}
+
+
+@app.route("/deleteMemory", methods=["POST"])
+def deleteMemory():
+    memoryId = request.get_json().get("memoryId")
+    try:
+        memory = Memory.query.filter_by(id=memoryId).first()
+        success = deleteImage(memory.image)
+        if success:
+            db.session.delete(memory)
+            db.session.commit()
+            return {"message": "success"}
+        else:
+            return {"code": 404, "message": "memory does not exist"}
+    except ConnectionError:
+        return {"code": 500, "message": "Server is down"}
+    except:
+        return {"code": 404, "message": "memory does not exist"}
 
 
 # RUNNING APPLICATION IN PYTHON STYLE

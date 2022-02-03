@@ -11,6 +11,7 @@ const titleField = document.querySelector(".memory__title--field");
 const msgField = document.querySelector(".memory__message--field");
 const tagsField = document.querySelector(".memory__tags--field");
 const imgField = document.querySelector(".memory__image--field");
+const cardTemplate = document.querySelector(".card--template");
 
 /* FUNCTION TO SEND DATA TO SERVER */
 const createMemory = data => {
@@ -80,32 +81,108 @@ form.addEventListener("submit", e => {
   } else {
     createMemory([creator, title, msg, tags, pic])
       .then(res => {
-        const cardStr = `<div class="card" id="card-${res.id}">
-        
-          <div class="card__header"><picture><source srcset="/static/images/${
-            res.image.split(".")[0]
-          }.webp" type="image/webp"/>
-          <source srcset="/static/images/${
-            res.image
-          }"/><img src="/static/images/${res.image}" alt="Card Image"
-          class="card__image"/></picture><div class="card__info"><div class="card__author"><h3>${
-            res.creator
-          }
-          </h3><h5>a few seconds ago</h5></div><div class="card__header--btns"><button class="card__edit--btn 
-          card__btn" title="Edit Memory"><i class="ri-edit-box-line"></i></button><button class="card__delete--btn
-          card__btn" title="Delete Memory"><ion-icon name="trash-outline"></ion-icon></button></div></div></div>
+        const template = cardTemplate.content.cloneNode(true);
+        const templatePic = template.querySelector("picture");
+        template.querySelector(".card").setAttribute("id", `card-${res.id}`);
+        for (let i = 0; i < 2; i++) {
+          templatePic.children[i].setAttribute(
+            "srcset",
+            `/static/images/${res.image}`
+          );
+        }
+        templatePic.children[2].setAttribute(
+          "scr",
+          `/static/images/${res.image}`
+        );
+        template.querySelector("h5").textContent = "a few seconds ago";
+        template.querySelector("h3").textContent = res.creator;
+        template.querySelector(".card__tags").textContent = tagsString;
+        template.querySelector(".card__title").textContent = res.title;
+        template.querySelector(".card__message").textContent = res.message;
 
-          <div class="card__body"><p class="card__tags">${tagsString}</p><h2 class="card__title">${
-          res.title
-        }</h2>
-          <p class="card__message">${res.message}</p></div>
-
-          <div class="card__footer"><button class="card__like--btn"><i class="ri-heart-line"></i><span>Like</span>
-          </button></div>
-        </div>`;
-
-        memoriesCards.insertAdjacentHTML("beforeend", cardStr);
+        memoriesCards.appendChild(template);
       })
       .catch(err => console.error(err));
+  }
+});
+
+/* ================== FUNCTIONALITY FOR LIKING MEMORY =================== */
+
+// Function to make http request for new likes
+const addLike = id => {
+  const promise = new Promise((resolve, reject) => {
+    const idJson = JSON.stringify({ memoryId: +id });
+
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("POST", "/memoryLike", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+
+    xhr.send(idJson);
+
+    xhr.onload = () => {
+      if (xhr.readyState === xhr.DONE && xhr.status === 200)
+        resolve(xhr.response);
+      else reject(xhr.response);
+    };
+    xhr.onerror = err => reject(err);
+  });
+  return promise;
+};
+
+// Event Handler
+memoriesCards.addEventListener("click", e => {
+  const targetGrandParent = e.target.parentElement.parentElement;
+
+  if (e.target.classList.contains("card__like--btn")) {
+    const id = targetGrandParent.id.split("-")[1];
+    addLike(id)
+      .then(res => {
+        e.target.textContent =
+          res["total Likes"] > 1
+            ? `${res["total Likes"]} Likes`
+            : `${res["total Likes"]} Like`;
+      })
+      .catch(err => console.error(err));
+  }
+});
+
+/* ================== Functionality to delete memories =================== */
+const deleteMemory = memoryId => {
+  const promise = new Promise((resolve, reject) => {
+    const id = JSON.stringify({ memoryId });
+
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("POST", "/deleteMemory", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+
+    xhr.send(id);
+
+    xhr.onload = () => {
+      if (xhr.status === 200 && !xhr.response.code) resolve(xhr.response);
+      else reject(xhr.response);
+    };
+    xhr.onerror = err => reject(err);
+  });
+  return promise;
+};
+
+memoriesCards.addEventListener("click", e => {
+  const targetGrandParent =
+    e.target.parentElement.parentElement.parentElement.parentElement
+      .parentElement;
+
+  if (e.target.parentElement.classList.contains("card__delete--btn")) {
+    const memoryId = targetGrandParent.id;
+    const id = Number(memoryId.split("-")[1]);
+    deleteMemory(id)
+      .then(res => {
+        memoriesCards.remove(targetGrandParent);
+        console.log(res.message);
+      })
+      .catch(err => console.error(err.message));
   }
 });

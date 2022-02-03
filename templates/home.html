@@ -52,8 +52,10 @@
 
   <body>
     <main class="memories--container">
+      <!-------------- SECTION FOR MEMORY CARDS --------------->
       <section class="memories__cards--container">
         <h1 class="memories__container--title">Memories</h1>
+
         <div class="memories__cards">
           {% for memory in memories %}
           <div class="card" id="card-{{memory.id}}">
@@ -61,7 +63,8 @@
               <picture>
                 <source
                   srcset="{{url_for('static',filename='images/'+memory.image.split('.')[0] + '.webp')}}"
-                type="image/webp"/>
+                  type="image/webp"
+                />
                 <source
                   srcset="{{url_for('static',filename='images/'+memory.image)}}"
                 />
@@ -104,8 +107,8 @@
 
             <div class="card__footer">
               <button class="card__like--btn">
-                <i class="ri-heart-line"></i>
-                <span>Like</span>
+                {% if memory.total_likes > 1 %} {{memory.total_likes}} Likes {%
+                else %} {{memory.total_likes}} Like {% endif %}
               </button>
             </div>
           </div>
@@ -113,6 +116,7 @@
         </div>
       </section>
 
+      <!-------------- FORM TO CREATE NEW MEMORY --------------->
       <form
         method="post"
         class="form"
@@ -200,6 +204,49 @@
           </button>
         </div>
       </form>
+
+      <!----------- TEMPLATE HOLDING NEW CARD ------------->
+      <template class="card--template">
+        <div class="card">
+          <div class="card__header">
+            <picture>
+              <source srcset="" type="image/webp" />
+              <source srcset="" />
+              <img src="" alt="Card Image" class="card__image" />
+            </picture>
+
+            <div class="card__info">
+              <div class="card__author">
+                <h3></h3>
+                <h5>{{moment().fromNow(refresh=True)}}</h5>
+              </div>
+
+              <div class="card__header--btns">
+                <button class="card__edit--btn card__btn" title="Edit Memory">
+                  <i class="ri-edit-box-line"></i>
+                </button>
+
+                <button
+                  class="card__delete--btn card__btn"
+                  title="Delete Memory"
+                >
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card__body">
+            <p class="card__tags"></p>
+            <h2 class="card__title"></h2>
+            <p class="card__message"></p>
+          </div>
+
+          <div class="card__footer">
+            <button class="card__like--btn">0 Like</button>
+          </div>
+        </div>
+      </template>
     </main>
   </body>
 </html>
