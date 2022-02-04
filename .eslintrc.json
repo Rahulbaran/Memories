@@ -13,7 +13,8 @@
     "no-unused-expressions": ["error", { "allowTernary": true }],
     "no-param-reassign": "warn",
     "prefer-destructuring": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "prefer-arrow-callback": "off"
   },
   "env": {
     "browser": true,

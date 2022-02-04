@@ -106,24 +106,21 @@ form.addEventListener("submit", e => {
   }
 });
 
-/* ================== FUNCTIONALITY FOR LIKING MEMORY =================== */
-
-// Function to make http request for new likes
-const addLike = id => {
+/* ================ Common Function to make Http request ================= */
+const httpRequest = (url, memoryId) => {
   const promise = new Promise((resolve, reject) => {
-    const idJson = JSON.stringify({ memoryId: +id });
+    const id = JSON.stringify({ memoryId: +memoryId });
 
     const xhr = new XMLHttpRequest();
     xhr.responseType = "json";
-    xhr.open("POST", "/memoryLike", true);
+    xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("Cache-Control", "no-cache");
 
-    xhr.send(idJson);
+    xhr.send(id);
 
     xhr.onload = () => {
-      if (xhr.readyState === xhr.DONE && xhr.status === 200)
-        resolve(xhr.response);
+      if (xhr.status === 200) resolve(xhr.response);
       else reject(xhr.response);
     };
     xhr.onerror = err => reject(err);
@@ -131,13 +128,13 @@ const addLike = id => {
   return promise;
 };
 
-// Event Handler
+/* ================== FUNCTIONALITY FOR LIKING MEMORY =================== */
 memoriesCards.addEventListener("click", e => {
   const targetGrandParent = e.target.parentElement.parentElement;
 
   if (e.target.classList.contains("card__like--btn")) {
     const id = targetGrandParent.id.split("-")[1];
-    addLike(id)
+    httpRequest("/memoryLike", id)
       .then(res => {
         e.target.textContent =
           res["total Likes"] > 1
@@ -148,41 +145,38 @@ memoriesCards.addEventListener("click", e => {
   }
 });
 
-/* ================== Functionality to delete memories =================== */
-const deleteMemory = memoryId => {
-  const promise = new Promise((resolve, reject) => {
-    const id = JSON.stringify({ memoryId });
+/* ================== Functionality to delete memory =================== */
+memoriesCards.addEventListener("click", function (e) {
+  const memoryCard = e.target.closest(".card");
 
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("POST", "/deleteMemory", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.setRequestHeader("Cache-Control", "no-cache");
-
-    xhr.send(id);
-
-    xhr.onload = () => {
-      if (xhr.status === 200 && !xhr.response.code) resolve(xhr.response);
-      else reject(xhr.response);
-    };
-    xhr.onerror = err => reject(err);
-  });
-  return promise;
-};
-
-memoriesCards.addEventListener("click", e => {
-  const targetGrandParent =
-    e.target.parentElement.parentElement.parentElement.parentElement
-      .parentElement;
-
-  if (e.target.parentElement.classList.contains("card__delete--btn")) {
-    const memoryId = targetGrandParent.id;
+  if (e.target.parentElement.matches(".card__delete--btn")) {
+    const memoryId = memoryCard.id;
     const id = Number(memoryId.split("-")[1]);
-    deleteMemory(id)
+
+    httpRequest("/deleteMemory", id)
       .then(res => {
-        memoriesCards.remove(targetGrandParent);
+        this.remove(memoryCard);
         console.log(res.message);
       })
       .catch(err => console.error(err.message));
+  }
+});
+
+/* ================ Functionality to Edit Memory ================== */
+memoriesCards.addEventListener("click", e => {
+  const memoryCard = e.target.closest(".card");
+
+  if (e.target.parentElement.matches(".card__edit--btn")) {
+    const memoryId = memoryCard.id;
+    const id = Number(memoryId.split("-")[1]);
+
+    httpRequest("/editMemory", id)
+      .then(res => {
+        creatorField.value = res.creator;
+        titleField.value = res.title;
+        msgField.value = res.message;
+        tagsField.value = res.tags;
+      })
+      .catch(err => console.error(err));
   }
 });
