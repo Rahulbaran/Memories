@@ -1,6 +1,8 @@
 "use strict";
 
-/* ============ FUNCTIONALITY FOR ADDING NEW MEMORY IN UI =========== */
+/* ===========================
+* FUNCTIONALITY FOR ADDING NEW MEMORY IN UI 
+============================ */
 const memoriesCards = document.querySelector(".memories__cards");
 const form = document.querySelector(".form");
 const inputFields = document.querySelectorAll(".form input");
@@ -13,10 +15,13 @@ const tagsField = document.querySelector(".memory__tags--field");
 const imgField = document.querySelector(".memory__image--field");
 const cardTemplate = document.querySelector(".card--template");
 
-/* FUNCTION TO SEND DATA TO SERVER */
+/* ===============================
+ *  createMemory()
+ *  FUNCITON TO CREATE NEW MEMORY
+ *  @param data
+ ================================ */
 const createMemory = data => {
   const promise = new Promise((resolve, reject) => {
-    // Creating FormData object
     const formData = new FormData();
     formData.append("creator", data[0]);
     formData.append("title", data[1]);
@@ -41,14 +46,18 @@ const createMemory = data => {
     };
     xhr.onerror = err => reject(err);
 
-    // Emptying input Fields and error
+    /* ===========================
+    * EMPTYING INPUT FILEDS
+    ============================= */
     inputFields.forEach(field => (field.value = ""));
     errors.forEach(err => (err.textContent = ""));
   });
   return promise;
 };
 
-/* EVENT HANDLER FOR FORM SUBMISSION */
+/* ====================================
+* EVENT HANDLER FOR FORM SUBMISSION 
+======================================= */
 form.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -91,7 +100,7 @@ form.addEventListener("submit", e => {
           );
         }
         templatePic.children[2].setAttribute(
-          "scr",
+          "src",
           `/static/images/${res.image}`
         );
         template.querySelector("h5").textContent = "a few seconds ago";
@@ -106,7 +115,9 @@ form.addEventListener("submit", e => {
   }
 });
 
-/* ================ Common Function to make Http request ================= */
+/* ==============================
+* Function to make Http request 
+=============================== */
 const httpRequest = (url, memoryId) => {
   const promise = new Promise((resolve, reject) => {
     const id = JSON.stringify({ memoryId: +memoryId });
@@ -128,7 +139,9 @@ const httpRequest = (url, memoryId) => {
   return promise;
 };
 
-/* ================== FUNCTIONALITY FOR LIKING MEMORY =================== */
+/* =============================
+* FUNCTIONALITY FOR LIKING MEMORY 
+============================= */
 memoriesCards.addEventListener("click", e => {
   const targetGrandParent = e.target.parentElement.parentElement;
 
@@ -145,7 +158,9 @@ memoriesCards.addEventListener("click", e => {
   }
 });
 
-/* ================== Functionality to delete memory =================== */
+/* ==============================
+* Functionality to delete memory 
+=============================== */
 memoriesCards.addEventListener("click", function (e) {
   const memoryCard = e.target.closest(".card");
 
@@ -159,24 +174,5 @@ memoriesCards.addEventListener("click", function (e) {
         console.log(res.message);
       })
       .catch(err => console.error(err.message));
-  }
-});
-
-/* ================ Functionality to Edit Memory ================== */
-memoriesCards.addEventListener("click", e => {
-  const memoryCard = e.target.closest(".card");
-
-  if (e.target.parentElement.matches(".card__edit--btn")) {
-    const memoryId = memoryCard.id;
-    const id = Number(memoryId.split("-")[1]);
-
-    httpRequest("/editMemory", id)
-      .then(res => {
-        creatorField.value = res.creator;
-        titleField.value = res.title;
-        msgField.value = res.message;
-        tagsField.value = res.tags;
-      })
-      .catch(err => console.error(err));
   }
 });

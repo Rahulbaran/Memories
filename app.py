@@ -41,8 +41,6 @@ def saveData(data, pic):
         return None
 
 
-memory__id = 0
-
 # ROUTES
 @app.route("/", methods=["GET", "POST"])
 @app.route("/home", methods=["GET", "POST"])
@@ -99,21 +97,17 @@ def deleteMemory():
         return {"code": 404, "message": "memory does not exist"}
 
 
-@app.route("/editMemory", methods=["POST"])
-def editMemory():
-    memoryId = request.get_json().get("memoryId")
-    try:
-        memory = Memory.query.get_or_404(memoryId)
-        return {
-            "creator": memory.creator,
-            "title": memory.title,
-            "message": memory.message,
-            "tags": memory.tags
-        }
-    except ConnectionError:
-        return {"code": 500, "message": "Server is down"}
-    except:
-        return {"code": 404, "message": "memory does not exist"}
+# @app.route("/editMemory", methods=["POST"])
+# def editMemory():
+#     memoryId = request.get_json().get("memoryId")
+#     try:
+#         memory = Memory.query.get_or_404(memoryId)
+#         memory__id = memoryId
+#         return {"creator": memory.creator, "title": memory.title, "message": memory.message, "tags": memory.tags}
+#     except ConnectionError:
+#         return {"code": 500, "message": "Server is down"}
+#     except:
+#         return {"code": 404, "message": "memory does not exist"}
 
 
 # RUNNING APPLICATION IN PYTHON STYLE
